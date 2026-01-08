@@ -13,7 +13,7 @@
     rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script type="module" crossorigin src="/geo-markz/index.js"></script>
-    <link rel="stylesheet" crossorigin href="/geo-markz/assets/styles-BTEHRhWo.css">
+    <link rel="stylesheet" crossorigin href="/geo-markz/assets/styles-CfbUgMD7.css">
   </head>
   <body>
     <div id="scroll-content">
@@ -340,6 +340,73 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="contact" class="contact">
+    <div class="container contact__container">
+        <div class="contact__info">
+            <span class="sub-title">Связаться с нами</span>
+            <h2 class="section-title">Готовы к карьерному апгрейду?</h2>
+            <p class="contact__text">
+                Оставьте заявку на бесплатную консультацию. Наш эксперт свяжется с вами в течение 24 часов, чтобы
+                оценить перспективы вашего проекта.
+            </p>
+
+            <div class="contact__details">
+                <div class="contact__item">
+                    <div class="contact__icon">✉️</div>
+                    <div>
+                        <span>Пишите нам</span>
+                        <strong>team@geo-markz.blog</strong>
+                    </div>
+                </div>
+                <div class="contact__item">
+                    <div class="contact__icon">📞</div>
+                    <div>
+                        <span>Звоните (UK)</span>
+                        <strong>+44 20 7946 0958</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact__form-wrapper">
+            <form id="contact-form" class="form">
+                <div class="form__group">
+                    <input type="text" id="name" name="name" class="form__input" placeholder="Ваше имя" required>
+                </div>
+
+                <div class="form__group">
+                    <input type="email" id="email" name="email" class="form__input" placeholder="Email адрес" required>
+                </div>
+
+                <div class="form__group">
+                    <input type="tel" id="phone" name="phone" class="form__input"
+                        placeholder="Номер телефона (только цифры)" required>
+                </div>
+
+                <div class="form__group form__group--captcha">
+                    <label for="captcha" class="form__label">Сколько будет <span
+                            id="captcha-question">...</span>?</label>
+                    <input type="text" id="captcha" name="captcha" class="form__input" placeholder="Ваш ответ" required>
+                </div>
+
+                <div class="form__group form__group--checkbox">
+                    <input type="checkbox" id="agree" name="agree" required>
+                    <label for="agree">Я согласен на обработку <a href="personal-data-policy.html">персональных
+                            данных</a></label>
+                </div>
+
+                <button type="submit" class="btn btn--primary btn--full">Запросить доступ</button>
+            </form>
+
+            <div id="form-success" class="form-success">
+                <div class="form-success__icon">✓</div>
+                <h3>Заявка успешно отправлена!</h3>
+                <p>Мы получили ваше сообщение и свяжемся с вами в ближайшее время.</p>
+                <button class="btn btn--outline" onclick="resetForm()">Отправить еще раз</button>
             </div>
         </div>
     </div>
