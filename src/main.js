@@ -1,242 +1,68 @@
-// 1. Инициализация плавного скролла Lenis
-const lenis = new Lenis()
+/**
+ * GEO-MARKZ.BLOG - Main JavaScript Asset
+ * Libraries used: GSAP, ScrollTrigger, SplitType, Lenis, Swiper
+ */
 
-function raf(time) {
-  lenis.raf(time)
-  requestAnimationFrame(raf)
-}
-requestAnimationFrame(raf)
-
-// 2. Эффект хедера при скролле
-const header = document.querySelector('.header');
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        header.style.padding = '12px 0';
-        header.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
-    } else {
-        header.style.padding = '20px 0';
-        header.style.boxShadow = 'none';
-    }
-});
-
-// 3. Плавный переход по якорям (Lenis совместимый)
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            lenis.scrollTo(target);
-        }
-    });
-});
-// Ждем загрузки DOM
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Анимация текста SplitType + GSAP
-    const heroTitle = new SplitType('#hero-title', { types: 'words, chars' });
+    // ==========================================
+    // 1. ИНИЦИАЛИЗАЦИЯ SMOOTH SCROLL (LENIS)
+    // ==========================================
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+    });
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Интеграция Lenis со ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+
+    // ==========================================
+    // 2. HEADER & NAVIGATION
+    // ==========================================
+    const header = document.querySelector('.header');
     
-    gsap.from(heroTitle.chars, {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        stagger: 0.02,
-        ease: "back.out(1.7)",
-        delay: 0.5
+    // Эффект хедера при скролле
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.style.padding = '12px 0';
+            header.style.boxShadow = '0 10px 30px rgba(15, 23, 42, 0.08)';
+            header.style.background = 'rgba(255, 255, 255, 0.95)';
+        } else {
+            header.style.padding = '20px 0';
+            header.style.boxShadow = 'none';
+            header.style.background = 'rgba(248, 250, 252, 0.8)';
+        }
     });
 
-    gsap.from('.hero__description', {
-        opacity: 0,
-        y: 20,
-        duration: 0.8,
-        delay: 1.2
-    });
-
-    gsap.from('.hero__btns', {
-        opacity: 0,
-        y: 20,
-        duration: 0.8,
-        delay: 1.4
-    });
-
-    // 2. Движение Orb за мышкой (плавное)
-    const orb = document.querySelector('#hero-orb');
-    window.addEventListener('mousemove', (e) => {
-        const { clientX, clientY } = e;
-        const x = (clientX - window.innerWidth / 2) * 0.05;
-        const y = (clientY - window.innerHeight / 2) * 0.05;
-        
-        gsap.to(orb, {
-            x: x,
-            y: y,
-            duration: 2,
-            ease: "power2.out"
+    // Плавный переход по якорям через Lenis
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                lenis.scrollTo(target, { offset: -80 });
+            }
         });
     });
-    // Регистрируем плагин
-gsap.registerPlugin(ScrollTrigger);
 
-// Анимация секции About
-const aboutTL = gsap.timeline({
-    scrollTrigger: {
-        trigger: ".about",
-        start: "top 70%", // анимация начнется, когда верх секции дойдет до 70% экрана
-    }
-});
 
-aboutTL.from(".about__image", {
-    x: -100,
-    opacity: 0,
-    duration: 1,
-    ease: "power3.out"
-})
-.from(".about__content .section-title", {
-    y: 50,
-    opacity: 0,
-    duration: 0.8
-}, "-=0.6")
-.from(".feature-item", {
-    y: 30,
-    opacity: 0,
-    stagger: 0.2,
-    duration: 0.6
-}, "-=0.4");
-    // Анимация карточек в секции Benefits
-gsap.from(".benefit-card", {
-    scrollTrigger: {
-        trigger: ".benefits__grid",
-        start: "top 80%",
-    },
-    y: 60,
-    opacity: 0,
-    duration: 0.8,
-    stagger: 0.2, // Карточки вылетают по очереди
-    ease: "power2.out"
-});
-    // Анимация секции Innovations
-const innovTL = gsap.timeline({
-    scrollTrigger: {
-        trigger: ".innovations__timeline",
-        start: "top 60%",
-        end: "bottom 80%",
-        scrub: 1 // Линия растет синхронно со скроллом
-    }
-});
-
-// Рост прогресс-бара
-innovTL.to(".timeline__progress", {
-    height: "100%",
-    ease: "none"
-});
-
-// Появление шагов (отдельный ScrollTrigger для каждого шага)
-document.querySelectorAll('.step-item').forEach((step, index) => {
-    gsap.to(step, {
-        scrollTrigger: {
-            trigger: step,
-            start: "top 70%",
-            toggleClass: "active", // Добавляем класс при попадании в фокус
-        },
-        opacity: 1,
-        x: 0,
-        duration: 0.8,
-        ease: "power2.out"
-    });
-});
-    // Инициализация слайдера кейсов
-const casesSlider = new Swiper('.cases-slider', {
-    slidesPerView: 1,
-    spaceBetween: 30,
-    loop: true,
-    navigation: {
-        nextEl: '.swiper-button-next-custom',
-        prevEl: '.swiper-button-prev-custom',
-    },
-    breakpoints: {
-        768: {
-            slidesPerView: 2,
-        },
-        1100: {
-            slidesPerView: 2.5, // Видна часть следующего слайда для интриги
-        }
-    }
-});
-
-// Добавим анимацию появления при скролле
-gsap.from(".cases-slider", {
-    scrollTrigger: {
-        trigger: ".cases",
-        start: "top 70%",
-    },
-    opacity: 0,
-    y: 50,
-    duration: 1
-});
-    // --- КУСОК ДЛЯ КОНТАКТНОЙ ФОРМЫ ---
-
-let captchaAnswer;
-
-// Генерация капчи
-function generateCaptcha() {
-    const q = document.getElementById('captcha-question');
-    if(!q) return;
-    const n1 = Math.floor(Math.random() * 10) + 1;
-    const n2 = Math.floor(Math.random() * 10) + 1;
-    captchaAnswer = n1 + n2;
-    q.innerText = `${n1} + ${n2}`;
-}
-
-// Сброс формы
-function resetForm() {
-    const form = document.getElementById('contact-form');
-    const success = document.getElementById('form-success');
-    form.reset();
-    form.style.display = 'block';
-    success.style.display = 'none';
-    generateCaptcha();
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    generateCaptcha();
-
-    const form = document.getElementById('contact-form');
-    const success = document.getElementById('form-success');
-    const phoneInput = document.getElementById('phone');
-
-    // 1. Валидация телефона (только цифры)
-    phoneInput.addEventListener('input', (e) => {
-        e.target.value = e.target.value.replace(/[^\d+]/g, '');
-    });
-
-    // 2. Обработка отправки
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const userAnswer = parseInt(document.getElementById('captcha').value);
-
-        // Проверка капчи
-        if (userAnswer !== captchaAnswer) {
-            alert('Неверный ответ на защитный вопрос. Попробуйте еще раз.');
-            generateCaptcha();
-            return;
-        }
-
-        // Имитация AJAX
-        const submitBtn = form.querySelector('button');
-        submitBtn.innerText = 'Отправка...';
-        submitBtn.disabled = true;
-
-        setTimeout(() => {
-            gsap.to(form, { opacity: 0, duration: 0.4, onComplete: () => {
-                form.style.display = 'none';
-                success.style.display = 'flex';
-                gsap.from(success, { opacity: 0, y: 20, duration: 0.5 });
-            }});
-        }, 1500);
-    });
-});
-    document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- MOBILE MENU LOGIC ---
+    // ==========================================
+    // 3. МОБИЛЬНОЕ МЕНЮ (BURGER)
+    // ==========================================
     const burger = document.querySelector('.burger');
     const mobileMenu = document.querySelector('#mobile-menu');
     const mobileLinks = document.querySelectorAll('.mobile-nav__link');
@@ -245,38 +71,236 @@ document.addEventListener('DOMContentLoaded', () => {
         burger.classList.toggle('active');
         mobileMenu.classList.toggle('active');
         
-        // Блокируем скролл Lenis при открытом меню
         if (mobileMenu.classList.contains('active')) {
-            lenis.stop();
+            lenis.stop(); // Блокируем скролл при открытом меню
+            gsap.from('.mobile-nav__link', {
+                y: 30,
+                opacity: 0,
+                stagger: 0.1,
+                duration: 0.5,
+                delay: 0.3
+            });
         } else {
             lenis.start();
         }
     }
 
-    burger.addEventListener('click', toggleMenu);
+    if(burger) burger.addEventListener('click', toggleMenu);
 
-    // Закрываем меню при клике на ссылку
     mobileLinks.forEach(link => {
         link.addEventListener('click', () => {
             if (mobileMenu.classList.contains('active')) toggleMenu();
         });
     });
 
-    // --- COOKIE POPUP LOGIC ---
+
+    // ==========================================
+    // 4. HERO ANIMATIONS (GSAP + SPLITTYPE)
+    // ==========================================
+    // Анимация текста заголовка
+    const heroTitle = new SplitType('#hero-title', { types: 'words, chars' });
+    
+    const heroTL = gsap.timeline({ delay: 0.5 });
+
+    heroTL.from(heroTitle.chars, {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        stagger: 0.02,
+        ease: "back.out(1.7)"
+    })
+    .from('.hero__description', {
+        opacity: 0,
+        y: 20,
+        duration: 0.8
+    }, "-=0.6")
+    .from('.hero__btns', {
+        opacity: 0,
+        y: 20,
+        duration: 0.8
+    }, "-=0.6")
+    .from('.hero__card', {
+        opacity: 0,
+        x: 50,
+        rotation: 10,
+        duration: 1,
+        ease: "power3.out"
+    }, "-=1");
+
+    // Интерактивный Orb (движение за мышкой)
+    const orb = document.querySelector('#hero-orb');
+    if (orb) {
+        window.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            const x = (clientX - window.innerWidth / 2) * 0.08;
+            const y = (clientY - window.innerHeight / 2) * 0.08;
+            
+            gsap.to(orb, {
+                x: x,
+                y: y,
+                duration: 2,
+                ease: "power2.out"
+            });
+        });
+    }
+
+
+    // ==========================================
+    // 5. SCROLL ANIMATIONS (SECTIONS)
+    // ==========================================
+    gsap.registerPlugin(ScrollTrigger);
+
+    // О Платформе (About)
+    const aboutTL = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".about",
+            start: "top 70%",
+        }
+    });
+
+    aboutTL.from(".about__image", { x: -60, opacity: 0, duration: 1 })
+           .from(".about__content .section-title", { y: 30, opacity: 0, duration: 0.6 }, "-=0.6")
+           .from(".feature-item", { y: 20, opacity: 0, stagger: 0.2, duration: 0.5 }, "-=0.4");
+
+    // Преимущества (Benefits)
+    gsap.from(".benefit-card", {
+        scrollTrigger: {
+            trigger: ".benefits__grid",
+            start: "top 80%",
+        },
+        y: 50,
+        opacity: 0,
+        stagger: 0.2,
+        duration: 0.8,
+        ease: "power2.out"
+    });
+
+    // Линия инноваций (Innovations Timeline)
+    const innovTL = gsap.timeline({
+        scrollTrigger: {
+            trigger: ".innovations__timeline",
+            start: "top 60%",
+            end: "bottom 80%",
+            scrub: 1
+        }
+    });
+
+    innovTL.to(".timeline__progress", { height: "100%", ease: "none" });
+
+    document.querySelectorAll('.step-item').forEach((step) => {
+        gsap.to(step, {
+            scrollTrigger: {
+                trigger: step,
+                start: "top 75%",
+                toggleClass: "active",
+            },
+            opacity: 1,
+            x: 0,
+            duration: 0.8
+        });
+    });
+
+
+    // ==========================================
+    // 6. SWIPER (CASES SLIDER)
+    // ==========================================
+    if (document.querySelector('.cases-slider')) {
+        const casesSlider = new Swiper('.cases-slider', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            navigation: {
+                nextEl: '.swiper-button-next-custom',
+                prevEl: '.swiper-button-prev-custom',
+            },
+            breakpoints: {
+                768: { slidesPerView: 2 },
+                1100: { slidesPerView: 2.5 }
+            }
+        });
+    }
+
+
+    // ==========================================
+    // 7. КОНТАКТНАЯ ФОРМА & КАПЧА
+    // ==========================================
+    let captchaAnswer;
+    const captchaQ = document.getElementById('captcha-question');
+    const contactForm = document.getElementById('contact-form');
+    const formSuccess = document.getElementById('form-success');
+    const phoneInput = document.getElementById('phone');
+
+    function generateCaptcha() {
+        if (!captchaQ) return;
+        const n1 = Math.floor(Math.random() * 10) + 1;
+        const n2 = Math.floor(Math.random() * 10) + 1;
+        captchaAnswer = n1 + n2;
+        captchaQ.innerText = `${n1} + ${n2}`;
+    }
+
+    if (captchaQ) generateCaptcha();
+
+    // Валидация телефона
+    if (phoneInput) {
+        phoneInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/[^\d+]/g, '');
+        });
+    }
+
+    // Обработка формы
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const userAnswer = parseInt(document.getElementById('captcha').value);
+
+            if (userAnswer !== captchaAnswer) {
+                alert('Ошибка: Неверный ответ на защитный вопрос.');
+                generateCaptcha();
+                return;
+            }
+
+            const submitBtn = contactForm.querySelector('button');
+            submitBtn.innerText = 'Отправка...';
+            submitBtn.disabled = true;
+
+            // Имитация AJAX
+            setTimeout(() => {
+                gsap.to(contactForm, { opacity: 0, duration: 0.4, onComplete: () => {
+                    contactForm.style.display = 'none';
+                    formSuccess.style.display = 'flex';
+                    gsap.from(formSuccess, { opacity: 0, y: 20, duration: 0.5 });
+                }});
+            }, 1500);
+        });
+    }
+
+    // Глобальная функция сброса формы для кнопки "Отправить еще раз"
+    window.resetForm = function() {
+        contactForm.reset();
+        contactForm.style.display = 'block';
+        contactForm.style.opacity = '1';
+        formSuccess.style.display = 'none';
+        generateCaptcha();
+    };
+
+
+    // ==========================================
+    // 8. COOKIE POPUP
+    // ==========================================
     const cookiePopup = document.querySelector('#cookie-popup');
     const cookieAccept = document.querySelector('#cookie-accept');
 
-    // Проверяем, принимал ли пользователь куки ранее
-    if (!localStorage.getItem('cookies-accepted')) {
+    if (cookiePopup && !localStorage.getItem('cookies-accepted')) {
         setTimeout(() => {
             cookiePopup.classList.add('active');
-        }, 2000); // Показываем через 2 секунды после загрузки
+        }, 3000);
     }
 
-    cookieAccept.addEventListener('click', () => {
-        localStorage.setItem('cookies-accepted', 'true');
-        cookiePopup.classList.remove('active');
-    });
+    if (cookieAccept) {
+        cookieAccept.addEventListener('click', () => {
+            localStorage.setItem('cookies-accepted', 'true');
+            cookiePopup.classList.remove('active');
+        });
+    }
 
-});
 });
