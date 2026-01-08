@@ -1321,3 +1321,85 @@ ul {
         margin-bottom: 20px;
     }
 }
+/* STYLES FOR LEGAL PAGES */
+.pages {
+    padding: 160px 0 100px;
+    /* Отступ сверху, чтобы хедер не перекрывал h1 */
+    background-color: #ffffff;
+    min-height: 80vh;
+}
+
+.pages .container {
+    max-width: 800px;
+    /* Узкая колонка для удобства чтения текста */
+}
+
+.pages h1 {
+    font-size: clamp(32px, 5vw, 48px);
+    margin-bottom: 40px;
+    color: var(--color-dark);
+    line-height: 1.1;
+}
+
+.pages h2 {
+    font-size: 24px;
+    margin: 40px 0 20px;
+    color: var(--color-dark);
+    font-weight: 700;
+}
+
+.pages p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--color-text);
+    margin-bottom: 20px;
+}
+
+.pages ul,
+.pages ol {
+    margin-bottom: 30px;
+    padding-left: 20px;
+}
+
+.pages li {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.pages li strong {
+    color: var(--color-dark);
+}
+
+.pages a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.pages a:hover {
+    color: var(--color-accent-hover);
+}
+
+/* Линия-разделитель в конце */
+.pages .container::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--color-accent);
+    margin-top: 60px;
+    border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+    .pages {
+        padding-top: 120px;
+    }
+
+    .pages h1 {
+        font-size: 28px;
+    }
+}
