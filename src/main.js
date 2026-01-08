@@ -171,4 +171,67 @@ gsap.from(".cases-slider", {
     y: 50,
     duration: 1
 });
+    // --- КУСОК ДЛЯ КОНТАКТНОЙ ФОРМЫ ---
+
+let captchaAnswer;
+
+// Генерация капчи
+function generateCaptcha() {
+    const q = document.getElementById('captcha-question');
+    if(!q) return;
+    const n1 = Math.floor(Math.random() * 10) + 1;
+    const n2 = Math.floor(Math.random() * 10) + 1;
+    captchaAnswer = n1 + n2;
+    q.innerText = `${n1} + ${n2}`;
+}
+
+// Сброс формы
+function resetForm() {
+    const form = document.getElementById('contact-form');
+    const success = document.getElementById('form-success');
+    form.reset();
+    form.style.display = 'block';
+    success.style.display = 'none';
+    generateCaptcha();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    generateCaptcha();
+
+    const form = document.getElementById('contact-form');
+    const success = document.getElementById('form-success');
+    const phoneInput = document.getElementById('phone');
+
+    // 1. Валидация телефона (только цифры)
+    phoneInput.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/[^\d+]/g, '');
+    });
+
+    // 2. Обработка отправки
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const userAnswer = parseInt(document.getElementById('captcha').value);
+
+        // Проверка капчи
+        if (userAnswer !== captchaAnswer) {
+            alert('Неверный ответ на защитный вопрос. Попробуйте еще раз.');
+            generateCaptcha();
+            return;
+        }
+
+        // Имитация AJAX
+        const submitBtn = form.querySelector('button');
+        submitBtn.innerText = 'Отправка...';
+        submitBtn.disabled = true;
+
+        setTimeout(() => {
+            gsap.to(form, { opacity: 0, duration: 0.4, onComplete: () => {
+                form.style.display = 'none';
+                success.style.display = 'flex';
+                gsap.from(success, { opacity: 0, y: 20, duration: 0.5 });
+            }});
+        }, 1500);
+    });
+});
 });
