@@ -1,56 +1,204 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/geo-markz/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geo-Markz | Карьерный апгрейд и инновации</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Syne:wght@700;800&display=swap"
+    rel="stylesheet">
     <script type="module" crossorigin src="/geo-markz/index.js"></script>
-    <link rel="stylesheet" crossorigin href="/geo-markz/assets/styles-guStct1H.css">
+    <link rel="stylesheet" crossorigin href="/geo-markz/assets/styles-CEbQxS8P.css">
   </head>
   <body>
+    <div id="scroll-content">
     <header class="header">
-  <div class="container">
+  <div class="container header__container">
+    <a href="/" class="logo">
+      Geo-<span>Markz</span>
+    </a>
+
     <nav class="nav">
-      <a class="nav-logo" href="./index.html" aria-label="Site logo">
-        <svg class="nav-logo-icon" width="100" height="30">
-          <use href="{=$icon-path}"></use>
-        </svg>
-      </a>
-      <ul class="nav-list">
-        <li class="nav-item">
-          <a class="nav-link {=$highlight-act}" href="./page-2.html">Page 2</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {=$highlight-curr}" href="./page-3.html">Page 3</a>
-        </li>
+      <ul class="nav__list">
+        <li><a href="#hero" class="nav__link">Главная</a></li>
+        <li><a href="#about" class="nav__link">Платформа</a></li>
+        <li><a href="#benefits" class="nav__link">Преимущества</a></li>
+        <li><a href="#innovations" class="nav__link">Инновации</a></li>
+        <li><a href="#blog" class="nav__link">Блог</a></li>
       </ul>
     </nav>
+
+    <div class="header__actions">
+      <a href="#contact" class="btn btn--outline">Связаться</a>
+      <button class="burger" aria-label="Menu">
+        <span></span>
+      </button>
+    </div>
   </div>
 </header>
 
-
     <main>
       <!-- Loads the specified .html file -->
-      
+      <section id="hero" class="hero">
+    <div class="container hero__container">
+        <div class="hero__content">
+            <div class="hero__badge">
+                <span class="badge__dot"></span>
+                Платформа года в Европе
+            </div>
+            <h1 class="hero__title" id="hero-title">
+                Постройте карьеру, которая работает на вас
+            </h1>
+            <p class="hero__description">
+                Инновационная стратегия роста на базе AI-инструментов. Переосмыслите свой путь к успеху с экспертной
+                поддержкой в Великобритании.
+            </p>
+            <div class="hero__btns">
+                <a href="#contact" class="btn btn--primary">Бесплатная консультация</a>
+                <a href="#about" class="btn btn--link">
+                    Узнать детали
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.16663 10H15.8333M15.8333 10L10.8333 5M15.8333 10L10.8333 15" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="hero__visual">
+            <div class="hero__orb" id="hero-orb"></div>
+            <div class="hero__card">
+                <div class="card__icon">🚀</div>
+                <div class="card__info">
+                    <strong>+45%</strong>
+                    <span>Средний рост дохода</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="about">
+    <div class="container about__container">
+        <div class="about__image">
+            <div class="image-stack">
+                <img src="img/placeholder.png" alt="Innovation" class="image-stack__main">
+                <div class="image-stack__overlay">
+                    <div class="stat-bubble">
+                        <span class="stat-bubble__val">AI Driven</span>
+                        <span class="stat-bubble__label">Technology</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="about__content">
+            <h2 class="section-title">Передовая цифровая инфраструктура для карьерного роста</h2>
+            <p class="section-subtitle">
+                Geo-Markz — это платформа года, объединяющая экспертную поддержку и решения, которые меняют правила игры
+                на рынке труда Англии.
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-item__icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4>AI-инструменты для задач</h4>
+                        <p>Интеллектуальный анализ ваших навыков и автоматический подбор стратегии.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-item__icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4>Методологии успеха</h4>
+                        <p>Практики, применимые уже сегодня, адаптированные под британский корпоративный стандарт.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about__cta">
+                <a href="#contact" class="btn btn--primary">Получить больше информации</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
     </main>
 
     <footer class="footer">
-  <div class="container">
-    <p class="footer-desc">
-      Made with ✨ by
-      <a
-        class="footer-link"
-        href="https://goit.global/ua/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        GoIT team
-      </a>
-    </p>
+  <div class="container footer__grid">
+    <div class="footer__col">
+      <a href="/" class="logo footer__logo">Geo-<span>Markz</span></a>
+      <p class="footer__text">
+        Технологии, которые работают на вас. Переосмыслите свой путь к вершине вместе с экспертной поддержкой.
+      </p>
+    </div>
+
+    <div class="footer__col">
+      <h4 class="footer__title">Навигация</h4>
+      <ul class="footer__links">
+        <li><a href="#hero">Главная</a></li>
+        <li><a href="#about">О платформе</a></li>
+        <li><a href="#benefits">Преимущества</a></li>
+        <li><a href="#blog">Карьерный блог</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4 class="footer__title">Юридическая информация</h4>
+      <ul class="footer__links">
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="cookies.html">Cookie Policy</a></li>
+        <li><a href="terms.html">Terms of Use</a></li>
+        <li><a href="return.html">Refund Policy</a></li>
+        <li><a href="disclaimer.html">Disclaimer</a></li>
+        <li><a href="personal-data-policy.html">Personal Data</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4 class="footer__title">Контакты (UK)</h4>
+      <ul class="footer__contact">
+        <li>
+          <span class="icon">📍</span>
+          40 Bank St, Canary Wharf, London E14 5NR, UK
+        </li>
+        <li>
+          <span class="icon">📞</span>
+          <a href="tel:+442079460958">+44 20 7946 0958</a>
+        </li>
+        <li>
+          <span class="icon">✉️</span>
+          <a href="mailto:hello@geo-markz.blog">hello@geo-markz.blog</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <p>&copy; 2026 Geo-Markz. Все права защищены. Предложение активно в странах ЕС и Великобритании.</p>
   </div>
 </footer>
-
-
+    </div>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://unpkg.com/split-type"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   </body>
 </html>
