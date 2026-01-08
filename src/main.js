@@ -234,4 +234,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1500);
     });
 });
+    document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- MOBILE MENU LOGIC ---
+    const burger = document.querySelector('.burger');
+    const mobileMenu = document.querySelector('#mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-nav__link');
+
+    function toggleMenu() {
+        burger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        
+        // Блокируем скролл Lenis при открытом меню
+        if (mobileMenu.classList.contains('active')) {
+            lenis.stop();
+        } else {
+            lenis.start();
+        }
+    }
+
+    burger.addEventListener('click', toggleMenu);
+
+    // Закрываем меню при клике на ссылку
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('active')) toggleMenu();
+        });
+    });
+
+    // --- COOKIE POPUP LOGIC ---
+    const cookiePopup = document.querySelector('#cookie-popup');
+    const cookieAccept = document.querySelector('#cookie-accept');
+
+    // Проверяем, принимал ли пользователь куки ранее
+    if (!localStorage.getItem('cookies-accepted')) {
+        setTimeout(() => {
+            cookiePopup.classList.add('active');
+        }, 2000); // Показываем через 2 секунды после загрузки
+    }
+
+    cookieAccept.addEventListener('click', () => {
+        localStorage.setItem('cookies-accepted', 'true');
+        cookiePopup.classList.remove('active');
+    });
+
+});
 });
