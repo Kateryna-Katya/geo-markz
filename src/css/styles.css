@@ -1236,3 +1236,20 @@ ul {
         right: 16px;
     }
 }
+/* В секции INNOVATIONS */
+.step-item {
+    display: flex;
+    gap: 40px;
+    position: relative;
+    padding-left: 100px;
+    /* Убираем жесткий opacity: 0 и transform здесь, 
+       пусть ими управляет GSAP при старте */
+    visibility: visible;
+}
+
+/* В секции BENEFITS */
+.benefit-card {
+    /* Проверьте, чтобы здесь не было opacity: 0 */
+    opacity: 1;
+    visibility: visible;
+}
