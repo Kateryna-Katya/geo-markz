@@ -817,3 +817,136 @@ ul {
         left: 0;
     }
 }
+/* CASES SECTION */
+.cases {
+    padding: 120px 0;
+    background: #F8FAFC;
+}
+
+.cases__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+}
+
+.cases__nav {
+    display: flex;
+    gap: 16px;
+}
+
+.swiper-button-prev-custom,
+.swiper-button-next-custom {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid #E2E8F0;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--color-dark);
+}
+
+.swiper-button-prev-custom:hover,
+.swiper-button-next-custom:hover {
+    background: var(--color-accent);
+    color: white;
+    border-color: var(--color-accent);
+}
+
+/* CASE CARD */
+.case-card {
+    background: white;
+    padding: 40px;
+    border-radius: 32px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.03);
+    border: 1px solid #F1F5F9;
+}
+
+.case-card--dark {
+    background: var(--color-dark);
+    color: white;
+}
+
+.case-card__category {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 12px;
+    display: block;
+}
+
+.case-card h3 {
+    font-size: 24px;
+    margin-bottom: 32px;
+}
+
+.comparison {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.comparison__item span {
+    font-weight: 700;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.comparison__item p {
+    font-size: 15px;
+    color: var(--color-text);
+}
+
+.case-card--dark .comparison__item p {
+    color: #94A3B8;
+}
+
+.case-card__footer {
+    margin-top: auto;
+    display: flex;
+    gap: 32px;
+    padding-top: 32px;
+    border-top: 1px solid #F1F5F9;
+}
+
+.case-card--dark .case-card__footer {
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.case-stat strong {
+    display: block;
+    font-size: 22px;
+    color: var(--color-accent);
+}
+
+.case-stat span {
+    font-size: 13px;
+    color: var(--color-text);
+}
+
+.case-card--dark .case-stat span {
+    color: #64748B;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .cases__top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 30px;
+    }
+
+    .case-card {
+        padding: 30px;
+    }
+}

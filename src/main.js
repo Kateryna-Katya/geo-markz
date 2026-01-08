@@ -142,4 +142,33 @@ document.querySelectorAll('.step-item').forEach((step, index) => {
         ease: "power2.out"
     });
 });
+    // Инициализация слайдера кейсов
+const casesSlider = new Swiper('.cases-slider', {
+    slidesPerView: 1,
+    spaceBetween: 30,
+    loop: true,
+    navigation: {
+        nextEl: '.swiper-button-next-custom',
+        prevEl: '.swiper-button-prev-custom',
+    },
+    breakpoints: {
+        768: {
+            slidesPerView: 2,
+        },
+        1100: {
+            slidesPerView: 2.5, // Видна часть следующего слайда для интриги
+        }
+    }
+});
+
+// Добавим анимацию появления при скролле
+gsap.from(".cases-slider", {
+    scrollTrigger: {
+        trigger: ".cases",
+        start: "top 70%",
+    },
+    opacity: 0,
+    y: 50,
+    duration: 1
+});
 });
