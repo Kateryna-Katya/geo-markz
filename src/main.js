@@ -100,4 +100,46 @@ aboutTL.from(".about__image", {
     stagger: 0.2,
     duration: 0.6
 }, "-=0.4");
+    // Анимация карточек в секции Benefits
+gsap.from(".benefit-card", {
+    scrollTrigger: {
+        trigger: ".benefits__grid",
+        start: "top 80%",
+    },
+    y: 60,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.2, // Карточки вылетают по очереди
+    ease: "power2.out"
+});
+    // Анимация секции Innovations
+const innovTL = gsap.timeline({
+    scrollTrigger: {
+        trigger: ".innovations__timeline",
+        start: "top 60%",
+        end: "bottom 80%",
+        scrub: 1 // Линия растет синхронно со скроллом
+    }
+});
+
+// Рост прогресс-бара
+innovTL.to(".timeline__progress", {
+    height: "100%",
+    ease: "none"
+});
+
+// Появление шагов (отдельный ScrollTrigger для каждого шага)
+document.querySelectorAll('.step-item').forEach((step, index) => {
+    gsap.to(step, {
+        scrollTrigger: {
+            trigger: step,
+            start: "top 70%",
+            toggleClass: "active", // Добавляем класс при попадании в фокус
+        },
+        opacity: 1,
+        x: 0,
+        duration: 0.8,
+        ease: "power2.out"
+    });
+});
 });
