@@ -1,12 +1,15 @@
 /**
- * GEO-MARKZ.BLOG - Full Script Bundle 2026
- * Порядок: Lenis -> GSAP -> SplitType -> Swiper -> Logic
+ * GEO-MARKZ.BLOG - Full Production Script
+ * Фикс: Принудительная активация секции Benefits и пересчет ScrollTrigger
  */
+
+// Регистрируем плагины сразу
+gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
 
     // ==========================================
-    // 1. ПЛАВНЫЙ СКРОЛЛ (LENIS)
+    // 1. SMOOTH SCROLL (LENIS)
     // ==========================================
     const lenis = new Lenis({
         duration: 1.2,
@@ -38,17 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleMenu = () => {
         burger.classList.toggle('active');
         mobileMenu.classList.toggle('active');
-        
-        if (mobileMenu.classList.contains('active')) {
-            lenis.stop(); // Остановить скролл при открытом меню
-        } else {
-            lenis.start();
-        }
+        mobileMenu.classList.contains('active') ? lenis.stop() : lenis.start();
     };
 
-    if (burger) {
-        burger.addEventListener('click', toggleMenu);
-    }
+    if (burger) burger.addEventListener('click', toggleMenu);
 
     mobileLinks.forEach(link => {
         link.addEventListener('click', () => {
@@ -58,23 +54,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================
-    // 3. АНИМАЦИИ ГЕРОЯ (HERO)
+    // 3. HERO ANIMATIONS
     // ==========================================
     const heroTitle = new SplitType('#hero-title', { types: 'words, chars' });
-    const heroTL = gsap.timeline({ delay: 0.3 });
+    const heroTL = gsap.timeline({ delay: 0.5 });
 
     heroTL.from(heroTitle.chars, {
         opacity: 0,
-        y: 40,
-        stagger: 0.03,
+        y: 50,
+        stagger: 0.02,
         duration: 1,
         ease: "back.out(1.7)"
     })
     .from('.hero__description', { opacity: 0, y: 20, duration: 0.8 }, "-=0.6")
     .from('.hero__btns', { opacity: 0, y: 20, duration: 0.8 }, "-=0.6")
-    .from('.hero__visual', { opacity: 0, x: 50, duration: 1.2, ease: "power3.out" }, "-=1");
+    .from('.hero__card', { opacity: 0, x: 50, rotation: 5, duration: 1 }, "-=0.8");
 
-    // Эффект Orb (за мышкой)
+    // Эффект Orb
     const orb = document.querySelector('#hero-orb');
     if (orb) {
         window.addEventListener('mousemove', (e) => {
@@ -86,15 +82,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================
-    // 4. СКРОЛЛ-АНИМАЦИИ (SCROLLTRIGGER)
+    // 4. О ПЛАТФОРМЕ (ABOUT)
     // ==========================================
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Секция About
     gsap.from(".about__container > *", {
         scrollTrigger: {
             trigger: ".about",
-            start: "top 75%",
+            start: "top 80%",
         },
         y: 40,
         opacity: 0,
@@ -102,24 +95,49 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 0.8
     });
 
-    // Секция Benefits (Фикс: подгружаем все карточки через stagger)
-    gsap.from(".benefit-card", {
-        scrollTrigger: {
-            trigger: ".benefits__grid",
-            start: "top 80%",
-        },
-        y: 60,
-        autoAlpha: 0, // autoAlpha лучше opacity для рендеринга
-        stagger: 0.15,
-        duration: 0.8,
-        ease: "power2.out"
-    });
 
-    // Линия Инноваций (Timeline)
+    // ==========================================
+    // 5. ПРЕИМУЩЕСТВА (BENEFITS) - ФИКСИРОВАННЫЙ БЛОК
+    // ==========================================
+    const benefitsGrid = document.querySelector('.benefits__grid');
+    const benefitCards = document.querySelectorAll('.benefit-card');
+
+    if (benefitsGrid && benefitCards.length > 0) {
+        // Используем fromTo для принудительной установки начальных и конечных точек
+        gsap.fromTo(benefitCards, 
+            { 
+                y: 100, 
+                opacity: 0,
+                visibility: "hidden" 
+            }, 
+            {
+                scrollTrigger: {
+                    trigger: benefitsGrid,
+                    start: "top 95%", // Срабатывает почти сразу при появлении
+                    toggleActions: "play none none none"
+                },
+                y: 0,
+                opacity: 1,
+                visibility: "visible",
+                stagger: 0.2,
+                duration: 1,
+                ease: "power3.out",
+                onComplete: () => {
+                    // Очистка стилей после анимации для избежания конфликтов с hover
+                    gsap.set(benefitCards, { clearProps: "y,opacity,visibility" });
+                }
+            }
+        );
+    }
+
+
+    // ==========================================
+    // 6. ИННОВАЦИИ (TIMELINE)
+    // ==========================================
     const innovTL = gsap.timeline({
         scrollTrigger: {
             trigger: ".innovations__timeline",
-            start: "top 60%",
+            start: "top 70%",
             end: "bottom 80%",
             scrub: 1
         }
@@ -127,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     innovTL.to(".timeline__progress", { height: "100%", ease: "none" });
 
-    // Анимация самих шагов (Инновации)
     document.querySelectorAll('.step-item').forEach((step) => {
         gsap.to(step, {
             scrollTrigger: {
@@ -143,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================
-    // 5. СЛАЙДЕР КЕЙСОВ (SWIPER)
+    // 7. КЕЙСЫ (SWIPER)
     // ==========================================
     if (document.querySelector('.cases-slider')) {
         new Swiper('.cases-slider', {
@@ -163,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================
-    // 6. КОНТАКТНАЯ ФОРМА & КАПЧА
+    // 8. ФОРМА КОНТАКТОВ
     // ==========================================
     let captchaAnswer;
     const captchaLabel = document.getElementById('captcha-question');
@@ -180,18 +197,15 @@ document.addEventListener('DOMContentLoaded', () => {
     generateCaptcha();
 
     if (contactForm) {
-        // Ограничение ввода телефона
         const phone = document.getElementById('phone');
-        phone.addEventListener('input', (e) => {
-            e.target.value = e.target.value.replace(/[^\d+]/g, '');
-        });
+        phone.addEventListener('input', (e) => e.target.value = e.target.value.replace(/[^\d+]/g, ''));
 
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const userAns = parseInt(document.getElementById('captcha').value);
 
             if (userAns !== captchaAnswer) {
-                alert('Неверная капча!');
+                alert('Неверный ответ на капчу!');
                 generateCaptcha();
                 return;
             }
@@ -211,7 +225,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Глобальная функция сброса
     window.resetForm = () => {
         contactForm.reset();
         contactForm.style.display = 'block';
@@ -222,24 +235,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================
-    // 7. COOKIE POPUP
+    // 9. COOKIE POPUP
     // ==========================================
     const cookie = document.querySelector('#cookie-popup');
-    if (cookie && !localStorage.getItem('cookie-ok')) {
-        setTimeout(() => cookie.classList.add('active'), 2500);
+    if (cookie && !localStorage.getItem('cookie-accepted-geo')) {
+        setTimeout(() => cookie.classList.add('active'), 3000);
         document.querySelector('#cookie-accept').addEventListener('click', () => {
-            localStorage.setItem('cookie-ok', 'true');
+            localStorage.setItem('cookie-accepted-geo', 'true');
             cookie.classList.remove('active');
         });
     }
 
 
     // ==========================================
-    // 8. ФИКС: ОБНОВЛЕНИЕ SCROLLTRIGGER
+    // 10. ФИНАЛЬНЫЙ ПЕРЕСЧЕТ (REFRESH)
     // ==========================================
-    // Это решает проблему, когда подгружается только первый элемент
+    // Это гарантирует, что все триггеры найдут свои координаты после загрузки контента
     window.addEventListener('load', () => {
-        ScrollTrigger.refresh();
+        setTimeout(() => {
+            ScrollTrigger.refresh();
+        }, 500);
     });
 
 });

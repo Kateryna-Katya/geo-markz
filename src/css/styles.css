@@ -1253,3 +1253,12 @@ ul {
     opacity: 1;
     visibility: visible;
 }
+/* Убедись, что это выглядит так: */
+.benefit-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 32px;
+    /* УДАЛИ ОТСЮДА opacity: 0 и transition, если они есть */
+    visibility: visible;
+}
